@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import CSVReader from 'react-csv-reader'
+import CSVReader from 'react-csv-reader';
+import { message } from 'antd'
 
-const papaparseOptions = {
+const parseOptions = {
     header: true,
     dynamicTyping: true,
     skipEmptyLines: true,
@@ -11,14 +12,24 @@ const papaparseOptions = {
         .replace(/\W/g, '_')
   }
 
+const successMessage = () =>{
+    message.success('El archivo se cargo con exito',3)
+}
+
+const errorMessage = () =>{
+    message.error('Hubo un problema al cargar el archivo',3)
+}
+
 class MainPage extends Component {
     render() {
         return(
             <div>
                 <CSVReader 
-                    onFileLoaded={data => console.log(data)} 
-                    parserOptions={papaparseOptions}
+                    onFileLoaded={ successMessage } 
+                    parserOptions={parseOptions}
+                    onError={ errorMessage }
                 />
+               
             </div>
         );
     }
