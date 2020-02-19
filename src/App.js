@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import MainPage from './components/MainPage/MainPage';
+import MainPage from './components/Home/Home';
 
 const routing = (
   <BrowserRouter>
