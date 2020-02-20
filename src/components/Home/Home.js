@@ -13,26 +13,35 @@ const parseOptions = {
         .replace(/\W/g, '_')
   }
 
-const successMessage = () =>{
-    message.success('El archivo se ha cargado con exito')
-}
-
-const errorMessage = () =>{
-    message.error('Hubo un problema al cargar el archivo',3)
-}
-
 class MainPage extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            visible: false,
+            data: 'default'
+        }
+    }
+
+    successMessage = (data) =>{
+        message.success('El archivo se ha cargado con exito')
+        this.setState({visible: true, data: data })
+        console.log( data )
+    }
+    
+    errorMessage = () =>{
+        message.error('Hubo un problema al cargar el archivo',3)
+    }
+
     render() {
         return(
             <div>
                 <CSVReader 
                     cssClass="react-csv-input"
                     label="Sube tu archivo .csv aqui"
-                    onFileLoaded={ successMessage } 
-                    parserOptions={parseOptions}
-                    onError={ errorMessage }
+                    onFileLoaded={data => this.successMessage(data) } 
+                    parserOptions={ parseOptions}
+                    onError={ this.errorMessage }
                 />
-               
             </div>
         );
     }
