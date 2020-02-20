@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CSVReader from 'react-csv-reader';
 import { message } from 'antd'
+import './Home.css';
 
 const parseOptions = {
     header: true,
@@ -13,7 +14,7 @@ const parseOptions = {
   }
 
 const successMessage = () =>{
-    message.success('El archivo se cargo con exito',3)
+    message.success('El archivo se ha cargado con exito')
 }
 
 const errorMessage = () =>{
@@ -25,6 +26,8 @@ class MainPage extends Component {
         return(
             <div>
                 <CSVReader 
+                    cssClass="react-csv-input"
+                    label="Sube tu archivo .csv aqui"
                     onFileLoaded={ successMessage } 
                     parserOptions={parseOptions}
                     onError={ errorMessage }
