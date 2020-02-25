@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CSVReader from 'react-csv-reader';
 import { message } from 'antd'
-import './Home.css';
+import './Styles/Home.css';
 
 const parseOptions = {
     header: true,

@@ -1,16 +1,17 @@
 import React from 'react';
-import './App.css';
+import '../src/components/Styles/App.css';
 import 'antd/dist/antd.css';
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import MainPage from './components/Home/Home';
+import MainPage from './components/Home';
+import MenuNavigation from './components/Menu';
+
 
 const routing = (
   <BrowserRouter>
     <div>
       <Switch>
         <Route path="/" exact component={MainPage}></Route>
-        <Redirect from="*" to="/" />
       </Switch>
     </div>
   </BrowserRouter>
@@ -19,6 +20,9 @@ const routing = (
 function App() {
   return (
     <div className="App">
+      <header>
+        <MenuNavigation/>
+      </header>
       {routing}
     </div>
   );
