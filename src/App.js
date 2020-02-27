@@ -11,7 +11,7 @@ const routing = (
   <BrowserRouter>
     <div>
       <Switch>
-        <Route path="/" exact component={MainPage}></Route>
+        <Route path="/" exact component={MenuNavigation}></Route>
       </Switch>
     </div>
   </BrowserRouter>
@@ -20,9 +20,6 @@ const routing = (
 function App() {
   return (
     <div className="App">
-      <header>
-        <MenuNavigation/>
-      </header>
       {routing}
     </div>
   );
