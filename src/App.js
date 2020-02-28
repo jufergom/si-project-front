@@ -1,17 +1,15 @@
 import React from 'react';
-import '../src/components/Styles/App.css';
+import './components/Styles/App.css';
 import 'antd/dist/antd.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import MainPage from './components/Home';
-import MenuNavigation from './components/Menu';
-
+import LoginPage from './components/Login';
 
 const routing = (
   <BrowserRouter>
     <div>
       <Switch>
-        <Route path="/" exact component={MenuNavigation}></Route>
+        <Route path="/" exact component={LoginPage}></Route>
       </Switch>
     </div>
   </BrowserRouter>
