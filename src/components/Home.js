@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import CSVReader from 'react-csv-reader';
 import { message } from 'antd'
-import './Home.css';
+import './Styles/Home.css';
+import { Typography, Card } from 'antd';
+
+const { Title } = Typography;
+
 
 const parseOptions = {
     header: true,
@@ -18,14 +22,13 @@ class MainPage extends Component {
         super(props);
         this.state={
             visible: false,
-            data: 'default'
+            data: 'default',
         }
     }
 
     successMessage = (data) =>{
         message.success('El archivo se ha cargado con exito')
-        this.setState({visible: true, data: data })
-        console.log( data )
+        
     }
     
     errorMessage = () =>{
@@ -35,8 +38,21 @@ class MainPage extends Component {
     render() {
         return(
             <div>
+                <header>
+                    
+                    <div id="title_menu">
+                        <Title> {this.props.mt.Titulo} </Title>
+                    </div>
+                    <div id="image_menu">
+                        <Card 
+                            cover={<img style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={this.props.mt.Imagen} />}
+                        >    
+                            <Card.Meta description={this.props.mt.Descripcion} style={{paddingLeft:'100px',width:'400px' ,alignItems:'center',textAlign:'justify'}}/>
+                        </Card>
+                    </div>
+                </header>
                 <CSVReader 
-                    cssClass="react-csv-input"
+                    cssClass="csv-input"
                     label="Sube tu archivo .csv aqui"
                     onFileLoaded={data => this.successMessage(data) } 
                     parserOptions={ parseOptions}
