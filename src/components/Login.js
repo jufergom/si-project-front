@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Avatar } from 'antd';
+import { Button, Input, Avatar, message } from 'antd';
 import { withRouter } from "react-router-dom";
 import './Styles/Login.css';
 
@@ -34,12 +34,12 @@ class LoginPage extends Component {
 				this.props.history.push("/home");
             }
             else {
-                alert('Usuario y/o contraseña incorrectos');
+                message.error('Usuario y/o contraseña incorrectos')
             }
         })
         .catch(error => {
 			console.log(error);
-            alert('Ha ocurrido un error al iniciar sesion, '+error);
+            message.error('Ha ocurrido un error al iniciar sesion, '+error);
         })
 	}
 
