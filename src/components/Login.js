@@ -31,7 +31,6 @@ class LoginPage extends Component {
         }).then(res => {
             if(res.status === 200) {
 				//let history = useHistory();
-
 				this.props.history.push("/home");
             }
             else {
@@ -57,9 +56,10 @@ class LoginPage extends Component {
 					<br/>
 					<Input.Group>
 						<div className="login-form-row">
-							<Avatar src="https://lh3.googleusercontent.com/proxy/22TtDGVkrXXcOn1jQE0zqqY8b-L5VEvLrb1xx_eCchKKtPmkLrQv_0JH9D5psOxj8ujp9NPZ52C8-hOPzw7zn8PbNnoJJm_m2qoW17V3zEQGDyDuRxiSr70q9IeYGuUg" />
+							<Avatar src="https://cdn.imgbin.com/13/24/2/imgbin-computer-icons-user-profile-password-login-end-user-GMxKLuYyvrp3YwaMZcZbLRMrd.jpg" />
 							<div className="fixed-width"></div>
 							<Input 
+								className="input-form"
 								value={this.state.username}
 								onChange={this.handleChange.bind(this,'username')}
 							/>
@@ -67,9 +67,10 @@ class LoginPage extends Component {
 						<br/>
 						<br/>
 						<div className="login-form-row">
-							<Avatar src="https://conceptdraw.com/a155c4/p40/preview/640/pict--cloud-lock-cloud-round-icons-vector-stencils-library" />
+							<Avatar src="https://cdn3.iconfinder.com/data/icons/black-easy/512/538684-lock_512x512.png" />
 							<div className="fixed-width"></div>
-							<Input.Password 
+							<Input.Password
+								className="input-form" 
 								value={this.state.password}
 								onChange={this.handleChange.bind(this,'password')}
 							/>
