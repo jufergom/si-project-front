@@ -3,6 +3,8 @@ import CSVReader from 'react-csv-reader';
 import { message } from 'antd'
 import './Styles/Home.css';
 import { Typography, Card } from 'antd';
+import Mayre from 'mayre';
+import Variables from "./Variables";
 
 const { Title } = Typography;
 
@@ -28,11 +30,13 @@ class MainPage extends Component {
 
     successMessage = (data) =>{
         message.success('El archivo se ha cargado con exito')
-        
+        let variables  = Object.getOwnPropertyNames( data[0] )
+        variables.splice(0,1);
+        this.setState({visible: true, data: variables })
     }
     
     errorMessage = () =>{
-        message.error('Hubo un problema al cargar el archivo',3)
+        message.error('Hubo un problema al cargar el archivo')
     }
 
     render() {
@@ -45,7 +49,7 @@ class MainPage extends Component {
                     </div>
                     <div id="image_menu">
                         <Card 
-                            cover={<img style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={this.props.mt.Imagen} />}
+                            cover={<img alt={ this.props.Titulo} style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={this.props.mt.Imagen} />}
                         >    
                             <Card.Meta description={this.props.mt.Descripcion} style={{paddingLeft:'100px',width:'400px' ,alignItems:'center',textAlign:'justify'}}/>
                         </Card>
@@ -57,6 +61,13 @@ class MainPage extends Component {
                     onFileLoaded={data => this.successMessage(data) } 
                     parserOptions={ parseOptions}
                     onError={ this.errorMessage }
+
+                />
+                <br/>
+                <Mayre
+                    of={ Variables }
+                    when={ this.state.visible }
+                    with={{var: this.state.data }}
                 />
             </div>
         );
