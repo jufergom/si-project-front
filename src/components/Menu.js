@@ -31,7 +31,7 @@ class MenuNavigation extends Component{
                         <MainPage mt={metaData.Clasificacion }/>
                     </TabPane>
                     <TabPane tab="Agrupamiento" key="2">
-                        <MainPage mt={metaData.Agrupamiento }/>
+                        <MainPage mt={metaData.Agrupamiento } Ncluster={true}/>
                     </TabPane>
                     <TabPane tab="Redes Neuronales" key="3">
                         <MainPage mt={metaData.RedesNeuronales }/>

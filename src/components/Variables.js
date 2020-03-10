@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Select, Card,Button } from 'antd';
-import { Route } from "react-router-dom";
-import MenuNavigation from "./Menu";
+
 
 const { Option } = Select;
 
@@ -10,28 +9,19 @@ class Variables extends Component{
     constructor(props){
         super(props);
         this.state={
-            v: [], // valores selecionados
-            opc: [] // opciones
+            opc: [] // opciones de las variables
         }
     }
 
-    handleChange = v =>{ 
-        this.setState({v},()=>{
-            console.log(this.state.v);
-        }) 
-    }
+    handleChange = e => this.props.actualizar(e) // binding doble de data
 
-    componentDidMount = () =>{
-        this.setState({ opc: this.props.var });
-    }
+    refresh = () => this.setState({ opc: this.props.var }); // para refrescar la lista
+
+    componentDidMount = () => this.setState({ opc: this.props.var });// trigger cuando el componente se redenderiza
     
-    componentWillReceiveProps = () =>{
-        this.setState({ opc: this.props.var, v: [] });
-    }
+    componentWillReceiveProps = () => this.setState({ opc: this.props.var }); // trigger cuando recibe nuevos props
 
-    opciones = lista =>{
-        return lista.map(( valor )=><Option key={valor}>{ valor }</Option>)
-    }
+    opciones = lista => {return lista.map(( valor )=><Option key={valor}>{ valor }</Option>)}// funcion para jsx de la lista
     
     render(){
         return(
@@ -41,14 +31,16 @@ class Variables extends Component{
                         style={{width: '500px'}}
                         placeholder="Selecione sus Variables"
                         mode="multiple"
-                        value={this.state.v}
+                        value={this.props.val}
                         onChange={this.handleChange}
                     >
-                        { this.opciones( this.state.opc) }
+                        { this.opciones( this.state.opc ) }
                     </Select>
-                    <br />
                     <br/>
-                    <Button type="primary"> Aceptar </Button>
+                    <br/>
+                    <Button type="primary" style={{marginRight:'10px'}}> Aceptar </Button>
+
+                    <Button type="primary" onClick={this.refresh} >Refrescar</Button>
                 </Card>
             </div>
         )

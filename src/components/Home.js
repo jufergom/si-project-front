@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CSVReader from 'react-csv-reader';
 import { message } from 'antd'
 import './Styles/Home.css';
-import { Typography, Card } from 'antd';
+import { Typography, Card, InputNumber } from 'antd';
 import Mayre from 'mayre';
 import Variables from "./Variables";
 
@@ -10,13 +10,7 @@ const { Title } = Typography;
 
 
 const parseOptions = {
-    header: true,
-    dynamicTyping: true,
-    skipEmptyLines: true,
-    transformHeader: header =>
-      header
-        .toLowerCase()
-        .replace(/\W/g, '_')
+    header: true
   }
 
 class MainPage extends Component {
@@ -25,14 +19,31 @@ class MainPage extends Component {
         this.state={
             visible: false,
             data: 'default',
+            variables: [],
+            Ncluster: 0,
+            parseData: []
+
         }
+
+        this.actualizar = this.actualizar.bind(this);
     }
+
+    componentWillReceiveProps = () => this.setState({ visible: false });
+
+    actualizar = valor =>{
+        this.setState({ variables: valor },()=>{
+            console.log( this.state.variables );
+        })
+    }
+
+    onChange = valor => this.setState({ Ncluster: valor });
 
     successMessage = (data) =>{
         message.success('El archivo se ha cargado con exito')
-        let variables  = Object.getOwnPropertyNames( data[0] )
-        variables.splice(0,1);
-        this.setState({visible: true, data: variables })
+        let variables  = Object.getOwnPropertyNames( data[0] ) // obtiene los nombres
+        variables.splice(0,1); // quita el primer elemento
+        this.setState({visible: true, data: variables, variables: [], parseData: data }) // setea el estado al valor
+
     }
     
     errorMessage = () =>{
@@ -55,6 +66,7 @@ class MainPage extends Component {
                         </Card>
                     </div>
                 </header>
+
                 <CSVReader 
                     cssClass="csv-input"
                     label="Sube tu archivo .csv aqui"
@@ -63,12 +75,24 @@ class MainPage extends Component {
                     onError={ this.errorMessage }
 
                 />
+
+                <Mayre
+                    of={
+                        <Card title="Numero de Clusters">
+                            <InputNumber value={this.state.Ncluster } onChange={this.onChange} /> 
+                        </Card> 
+                        }
+                    when={ this.props.Ncluster && this.state.visible }
+                />
+
                 <br/>
+
                 <Mayre
                     of={ Variables }
                     when={ this.state.visible }
-                    with={{var: this.state.data }}
+                    with={{var: this.state.data, actualizar: this.actualizar, val: this.state.variables }}
                 />
+
             </div>
         );
     }
