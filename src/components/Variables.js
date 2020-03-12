@@ -19,7 +19,7 @@ class Variables extends Component{
 
     componentDidMount = () => this.setState({ opc: this.props.var });// trigger cuando el componente se redenderiza
     
-    componentWillReceiveProps = () => this.setState({ opc: this.props.var }); // trigger cuando recibe nuevos props
+    getDerivedStateFromProps = () => this.setState({ opc: this.props.var }); // trigger cuando recibe nuevos props
 
     opciones = lista => {return lista.map(( valor )=><Option key={valor}>{ valor }</Option>)}// funcion para jsx de la lista
     

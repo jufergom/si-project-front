@@ -28,7 +28,7 @@ class MainPage extends Component {
         this.actualizar = this.actualizar.bind(this);
     }
 
-    componentWillReceiveProps = () => this.setState({ visible: false });
+    getDerivedStateFromProps = () => this.setState({ visible: false });
 
     actualizar = valor =>{
         this.setState({ variables: valor },()=>{
@@ -60,7 +60,7 @@ class MainPage extends Component {
                     </div>
                     <div id="image_menu">
                         <Card 
-                            cover={<img alt={ this.props.Titulo} style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={this.props.mt.Imagen} />}
+                            cover={<img alt={ this.props.Titulo } style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={this.props.mt.Imagen} />}
                         >    
                             <Card.Meta description={this.props.mt.Descripcion} style={{paddingLeft:'100px',width:'400px' ,alignItems:'center',textAlign:'justify'}}/>
                         </Card>
