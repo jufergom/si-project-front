@@ -5,6 +5,7 @@ import './Styles/Home.css';
 import { Typography, Card, InputNumber } from 'antd';
 import Mayre from 'mayre';
 import Variables from "./Variables";
+import axios from "axios";
 
 const { Title } = Typography;
 
@@ -21,14 +22,44 @@ class MainPage extends Component {
             data: 'default',
             variables: [],
             Ncluster: 0,
-            parseData: []
-
+            parseData: [],
+            accept: true
         }
 
         this.actualizar = this.actualizar.bind(this);
+        this.accept = this.accept.bind(this);
     }
 
-    getDerivedStateFromProps = () => this.setState({ visible: false });
+    getDerivedStateFromProps = () => this.setState({ visible: false, accept: false });
+
+    accept = _ => {
+        if(this.state.accept) {
+            let url = 'http://localhost:5000/linear';
+            let data = {
+                variables: this.state.variables, 
+                parseData: this.state.parseData
+            };
+            console.log(data);
+            /*
+            fetch(url, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            }).then(res => console.log(res))
+            .catch(error => {
+                console.log(error);
+                message.error('Ha ocurrido un error al enviar los datos, '+error);
+            })
+            */
+           axios.post(url, data)
+            .then(response => {
+                console.log(response.data);
+                message.success("La presicion es: "+response.data.precision)
+            });
+        }
+    }
 
     actualizar = valor =>{
         this.setState({ variables: valor },()=>{
@@ -90,7 +121,7 @@ class MainPage extends Component {
                 <Mayre
                     of={ Variables }
                     when={ this.state.visible }
-                    with={{var: this.state.data, actualizar: this.actualizar, val: this.state.variables }}
+                    with={{var: this.state.data, actualizar: this.actualizar, val: this.state.variables, click: this.accept }}
                 />
 
             </div>

@@ -15,6 +15,8 @@ class Variables extends Component{
 
     handleChange = e => this.props.actualizar(e) // binding doble de data
 
+    click = () => this.props.click();
+
     refresh = () => this.setState({ opc: this.props.var }); // para refrescar la lista
 
     componentDidMount = () => this.setState({ opc: this.props.var });// trigger cuando el componente se redenderiza
@@ -38,7 +40,7 @@ class Variables extends Component{
                     </Select>
                     <br/>
                     <br/>
-                    <Button type="primary" style={{marginRight:'10px'}}> Aceptar </Button>
+                    <Button type="primary" style={{marginRight:'10px'}} onClick={this.click}> Aceptar </Button>
 
                     <Button type="primary" onClick={this.refresh} >Refrescar</Button>
                 </Card>
