@@ -1,49 +1,18 @@
-import React, { Component } from "react";
-import { Button, Input, Avatar, message } from 'antd';
-import { withRouter } from "react-router-dom";
+import React from "react";
+import { Button, Input, Avatar} from 'antd';
 import './Styles/Login.css';
+import Mayre from 'mayre';
+import { Redirect } from "react-router-dom";
 
-class LoginPage extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-			username: '',
-			password: '',
-            visible: false,
-            data: 'default'
-        }
-	}
-	
-	handleChange = (Name,event) => {
-    	this.setState({[Name]: event.target.value});
-	};
-	
-	checkAccount = () => {
-		let url = 'http://localhost:5000/api/login';
-        let data = {username: this.state.username, password: this.state.password};
+import {useSelector,useDispatch} from 'react-redux';
+import { loginCheck,loginUsernameHandleChange,loginPasswordHandleChange } from './actions/login';
+ 
 
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers:{
-              'Content-Type': 'application/json'
-            }
-        }).then(res => {
-            if(res.status === 200) {
-				//let history = useHistory();
-				this.props.history.push("/home");
-            }
-            else {
-                message.error('Usuario y/o contraseña incorrectos')
-            }
-        })
-        .catch(error => {
-			console.log(error);
-            message.error('Ha ocurrido un error al iniciar sesion, '+error);
-        })
-	}
-
-    render() {
+const LoginPage = () => {
+		let username = useSelector(state => state.login.username);
+		let password = useSelector(state => state.login.password);
+		let isLogged = useSelector(state => state.login.isLogged);
+		const dispatch = useDispatch();
         return(
 			<div>
 				<br/>
@@ -60,8 +29,7 @@ class LoginPage extends Component {
 							<div className="fixed-width"></div>
 							<Input 
 								className="input-form"
-								value={this.state.username}
-								onChange={this.handleChange.bind(this,'username')}
+								onChange={(e) => dispatch(loginUsernameHandleChange(e.target.value))}
 							/>
 						</div>
 						<br/>
@@ -71,23 +39,26 @@ class LoginPage extends Component {
 							<div className="fixed-width"></div>
 							<Input.Password
 								className="input-form" 
-								value={this.state.password}
-								onChange={this.handleChange.bind(this,'password')}
+								onChange={(e) => dispatch(loginPasswordHandleChange(e.target.value))}
 							/>
 						</div>
 					</Input.Group>
 					<br/>
-					<Button 
+					<Button
 						type="primary" 
 						className="login-button"
-						onClick={this.checkAccount.bind(this)}
+						onClick={()=> {dispatch(loginCheck(username,password))}}
 					>
 						Iniciar Sesión
 					</Button>
 				</div>
+
+				<Mayre
+					of={ <Redirect to="/home"/> }
+					when={isLogged}
+				/>
 			</div>
         );
-    }
-}
-
-export default withRouter (LoginPage);
+	}
+	
+export default LoginPage;

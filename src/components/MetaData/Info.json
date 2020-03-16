@@ -1,23 +1,23 @@
 {
     "RegresionLineal":{
-        "Titulo": "Regresion Lineal",
-        "Descripcion": "Es un modelo matemático usado para aproximar la relación de dependencia entre una variable dependiente Y, las variables independientes Xᵢ y un término aleatorio ε.",
-        "Imagen": "https://content.gnoss.ws/imagenesEnlaces/a3/a354/a354dc49-3a49-47c4-92ba-3b720337ee11/a354dc49-3a49-47c4-92ba-3b720337ee11.jpg?1001"
+        "Title": "Regresion Lineal",
+        "Description": "Es un modelo matemático usado para aproximar la relación de dependencia entre una variable dependiente Y, las variables independientes Xᵢ y un término aleatorio ε.",
+        "Image": "https://content.gnoss.ws/ImageesEnlaces/a3/a354/a354dc49-3a49-47c4-92ba-3b720337ee11/a354dc49-3a49-47c4-92ba-3b720337ee11.jpg?1001"
     },
     "Clasificacion":{
-        "Titulo": "Regresion Logistica",
-        "Descripcion": "Es un tipo de análisis de regresión utilizado para predecir el resultado de una variable categórica en función de las variables independientes o predictoras. Es útil para modelar la probabilidad de un evento ocurriendo como función de otros factores.",
-        "Imagen": "https://0xzx.com/wp-content/uploads/2019/05/1*S7WJIgkqjisQYOOyH908ZQ.jpeg"
+        "Title": "Regresion Logistica",
+        "Description": "Es un tipo de análisis de regresión utilizado para predecir el resultado de una variable categórica en función de las variables independientes o predictoras. Es útil para modelar la probabilidad de un evento ocurriendo como función de otros factores.",
+        "Image": "https://0xzx.com/wp-content/uploads/2019/05/1*S7WJIgkqjisQYOOyH908ZQ.jpeg"
     },
     "Agrupamiento":{
-        "Titulo": "Clustering",
-        "Descripcion":"Es la tarea de agrupar un conjunto de objetos de tal manera que los miembros del mismo grupo sean más similares, en algún sentido u otro. Es la tarea principal de la minería de datos exploratoria y es una técnica común en el análisis de datos estadísticos.",
-        "Imagen":"https://jarroba.com/wp-content/uploads/2016/03/Ejemplo_clustering.png"
+        "Title": "Clustering",
+        "Description":"Es la tarea de agrupar un conjunto de objetos de tal manera que los miembros del mismo grupo sean más similares, en algún sentido u otro. Es la tarea principal de la minería de datos exploratoria y es una técnica común en el análisis de datos estadísticos.",
+        "Image":"https://jarroba.com/wp-content/uploads/2016/03/Ejemplo_clustering.png"
     },
     "RedesNeuronales":{
-        "Titulo":"Redes Neuronales",
-        "Descripcion":"Es un grupo interconectado de nodos similar a la vasta red de neuronas en un cerebro biológico. Cada nodo circular representa una neurona artificial y cada flecha representa una conexión desde la salida de una neurona a la entrada de otra.",
-        "Imagen":"https://img.unocero.com/2019/07/unocero-redesneuronales01.jpg"
+        "Title":"Redes Neuronales",
+        "Description":"Es un grupo interconectado de nodos similar a la vasta red de neuronas en un cerebro biológico. Cada nodo circular representa una neurona artificial y cada flecha representa una conexión desde la salida de una neurona a la entrada de otra.",
+        "Image":"https://img.unocero.com/2019/07/unocero-redesneuronales01.jpg"
     }
 
 }

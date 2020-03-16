@@ -1,101 +1,81 @@
-import React, { Component } from "react";
+import React from "react";
 import CSVReader from 'react-csv-reader';
-import { message } from 'antd'
 import './Styles/Home.css';
 import { Typography, Card, InputNumber } from 'antd';
 import Mayre from 'mayre';
 import Variables from "./Variables";
+import PropTypes from 'prop-types';
+import {useSelector,useDispatch} from 'react-redux';
+import {sendData,optionsChange} from './actions/data';
 
 const { Title } = Typography;
+const parseOptions = {header: true}
 
-
-const parseOptions = {
-    header: true
-  }
-
-class MainPage extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            visible: false,
-            data: 'default',
-            variables: [],
-            Ncluster: 0,
-            parseData: []
-
-        }
-
-        this.actualizar = this.actualizar.bind(this);
-    }
-
-    getDerivedStateFromProps = () => this.setState({ visible: false });
-
-    actualizar = valor =>{
-        this.setState({ variables: valor },()=>{
-            console.log( this.state.variables );
-        })
-    }
-
-    onChange = valor => this.setState({ Ncluster: valor });
-
-    successMessage = (data) =>{
-        message.success('El archivo se ha cargado con exito')
-        let variables  = Object.getOwnPropertyNames( data[0] ) // obtiene los nombres
-        variables.splice(0,1); // quita el primer elemento
-        this.setState({visible: true, data: variables, variables: [], parseData: data }) // setea el estado al valor
-
-    }
-    
-    errorMessage = () =>{
-        message.error('Hubo un problema al cargar el archivo')
-    }
-
-    render() {
+const MainPage = ({metadata,isCluster,onChangeCluster,onChangeData,onError})=>{
+        const dispatch = useDispatch();
+        let isVariableVisible = useSelector( state => state.data.isVariableVisible);
+        let variableOptions = useSelector( state => state.data.variableOptions);
         return(
             <div>
                 <header>
-                    
                     <div id="title_menu">
-                        <Title> {this.props.mt.Titulo} </Title>
+                        <Title> {metadata.Title} </Title>
                     </div>
                     <div id="image_menu">
                         <Card 
-                            cover={<img alt={ this.props.Titulo } style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={this.props.mt.Imagen} />}
+                            cover={<img alt={ metadata.Title } style={{paddingLeft:'110px',paddingRight:'50px',width:'500px',height:'300px'}} src={metadata.Image} />}
                         >    
-                            <Card.Meta description={this.props.mt.Descripcion} style={{paddingLeft:'100px',width:'400px' ,alignItems:'center',textAlign:'justify'}}/>
+                            <Card.Meta description={metadata.Description} style={{paddingLeft:'100px',width:'400px' ,alignItems:'center',textAlign:'justify'}}/>
                         </Card>
                     </div>
                 </header>
-
                 <CSVReader 
                     cssClass="csv-input"
                     label="Sube tu archivo .csv aqui"
-                    onFileLoaded={data => this.successMessage(data) } 
+                    onFileLoaded={data => { dispatch(onChangeData(data))}} 
                     parserOptions={ parseOptions}
-                    onError={ this.errorMessage }
+                    onError={()=> dispatch(onError()) }
 
                 />
-
                 <Mayre
                     of={
                         <Card title="Numero de Clusters">
-                            <InputNumber value={this.state.Ncluster } onChange={this.onChange} /> 
+                            <InputNumber onChange={(e) => dispatch(onChangeCluster(e))} /> 
                         </Card> 
                         }
-                    when={ this.props.Ncluster && this.state.visible }
+                    when={ isCluster }
                 />
-
                 <br/>
-
                 <Mayre
                     of={ Variables }
-                    when={ this.state.visible }
-                    with={{var: this.state.data, actualizar: this.actualizar, val: this.state.variables }}
+                    when={isVariableVisible}
+                    with={{ options: variableOptions,onChangeOption: optionsChange,onAccept: sendData}}
                 />
-
             </div>
         );
-    }
 }
 
+MainPage.prototype = {
+    metadata : PropTypes.shape({
+        Title: PropTypes.string,
+        Description: PropTypes.string,
+        Image: PropTypes.string
+    }).isRequired,
+    isCluster: PropTypes.bool,
+    onChangeCluster: PropTypes.shape({
+        type: PropTypes.string,
+        payload: PropTypes.number
+    }),
+    onChangeData: PropTypes.shape({
+        type: PropTypes.string,
+        payload: PropTypes.number
+    }),
+    onError: PropTypes.shape({
+        type: PropTypes.string
+    }),
+}
+
+MainPage.defaultProps ={
+    isCluster: false
+}
 export default MainPage;

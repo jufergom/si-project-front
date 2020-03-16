@@ -1,50 +1,41 @@
-import React, { Component } from "react";
+import React from "react";
+import {useDispatch} from 'react-redux';
 import { Select, Card,Button } from 'antd';
-
-
+import PropTypes from 'prop-types';
 const { Option } = Select;
 
+const renderOptions = list =>{return list.map(( value )=><Option key={value}>{ value }</Option>)}
 
-class Variables extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            opc: [] // opciones de las variables
-        }
-    }
+const Variables= ({options,onChangeOption,onAccept})=>{
+    const dispatch = useDispatch();
+    return(
+        <div>
+            <Card title="Variables Independientes" style={{ fontWeight: "bolder"}} >
+                <Select
+                    style={{width: '500px'}}
+                    placeholder="Selecione sus Variables"
+                    mode="multiple"
+                    onChange={ (e)=> dispatch(onChangeOption(e)) }
+                >
+                    { renderOptions(options) }
+                </Select>
+                <br/>
+                <br/>
+                <Button type="primary" onClick={()=> dispatch(onAccept())} style={{marginRight:'10px'}}> Aceptar </Button>
+            </Card>
+        </div>
+    )
+}
 
-    handleChange = e => this.props.actualizar(e) // binding doble de data
-
-    refresh = () => this.setState({ opc: this.props.var }); // para refrescar la lista
-
-    componentDidMount = () => this.setState({ opc: this.props.var });// trigger cuando el componente se redenderiza
-    
-    getDerivedStateFromProps = () => this.setState({ opc: this.props.var }); // trigger cuando recibe nuevos props
-
-    opciones = lista => {return lista.map(( valor )=><Option key={valor}>{ valor }</Option>)}// funcion para jsx de la lista
-    
-    render(){
-        return(
-            <div>
-                <Card title="Variables Independientes" style={{ fontWeight: "bolder"}} >
-                    <Select
-                        style={{width: '500px'}}
-                        placeholder="Selecione sus Variables"
-                        mode="multiple"
-                        value={this.props.val}
-                        onChange={this.handleChange}
-                    >
-                        { this.opciones( this.state.opc ) }
-                    </Select>
-                    <br/>
-                    <br/>
-                    <Button type="primary" style={{marginRight:'10px'}}> Aceptar </Button>
-
-                    <Button type="primary" onClick={this.refresh} >Refrescar</Button>
-                </Card>
-            </div>
-        )
-    }
+Variables.prototype={
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onChangeOption: PropTypes.shape({
+        type: PropTypes.string,
+        payload: PropTypes.any
+    }).isRequired,
+    onAccept: PropTypes.shape({
+        type: PropTypes.string,
+    }).isRequired
 }
 
 export default Variables
