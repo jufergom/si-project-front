@@ -76,6 +76,6 @@ MainPage.prototype = {
 }
 
 MainPage.defaultProps ={
-    isCluster: false
+    isCluster: false,
 }
 export default MainPage;

@@ -11,9 +11,9 @@ const MenuNavigation= ()=>{
         const dispatch = useDispatch();
         return(
             <div>
-                <Tabs onTabClick={()=> dispatch(updateData())} style={{ paddingLeft:'50px', paddingRight: '50px'}} size="large" type="card" defaultActiveKey="0">
-                    <TabPane tab="Regresion" key="0">
-                        <MainPage metadata={metaData.RegresionLineal} onChangeCluster={clusterChange} onChangeData={dataChange}onError={errorParse}/>
+                <Tabs onTabClick={key=> dispatch(updateData(key))} style={{ paddingLeft:'50px', paddingRight: '50px'}} size="large" type="card" defaultActiveKey="0">
+                    <TabPane  tab="Regresion" key="0">
+                        <MainPage metadata={metaData.RegresionLineal} onChangeCluster={clusterChange} onChangeData={dataChange} onError={errorParse}/>
                     </TabPane>
                     <TabPane tab="Clasificacion" key="1">
                         <MainPage metadata={metaData.Clasificacion } onChangeCluster={clusterChange} onChangeData={dataChange}onError={errorParse}/>

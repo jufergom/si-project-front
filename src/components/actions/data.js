@@ -14,9 +14,10 @@ export const clusterChange = value =>{
     }
 }
 
-export const updateData = ()=>{
+export const updateData = key =>{
     return{
-        type: Types.DATA_UPDATE
+        type: Types.DATA_UPDATE,
+        payload: key 
     }
 }
 
@@ -32,9 +33,9 @@ export const sendData = ()=>{
     }
 }
 
-export const optionsChange = value =>{
-    return{
-        type: Types.OPTIONS_CHANGE,
-        payload: value
+export const optionsChange = (value,isDependent) =>{
+    if(isDependent){
+        return { type: Types.OPTIONS_CHANGE_DEPENDANT,payload: value};
     }
+    return { type: Types.OPTIONS_CHANGE_INDEPENDANT,payload: value}
 }
