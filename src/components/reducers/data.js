@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Types from '../MetaData/actionsTypes';
 import { message } from 'antd';
+import axios from 'axios';
 
 const initialDataState ={
     variableOptions: [],
@@ -32,6 +33,27 @@ const onChangeCluster = (state,valor) =>{
 const onError = state=>{
     message.error('Ocurrio un error al cargar el Archivo');
     return state;
+}
+
+const onAccept= state =>{
+    const url = 'http://localhost:5000/linear';
+    const info = 
+    { 
+        selectedVariablesIndependent: state.selectedVariablesIndependent, 
+        selectedVariableDependent: state.selectedVariableDependent,
+        numberCluster: state.numberCluster,
+        parseData: state.parseData
+    };
+    axios.post(url, info)
+    .then(response =>{
+        if(response.status === 200){
+            message.success("La precision es de: "+response.data.precision)
+        }
+        
+    }).catch( error =>{
+        message.error("Hubo un error al enviar "+error)
+    })
+    
 }
 
 const updateData = (state,key) =>{
@@ -79,6 +101,7 @@ const dataReducer = ( state = initialDataState ,action) =>{
             return onError(state);
         }
         case Types.ACCEPT:{
+            onAccept(state);
             return state;
         }
         case Types.OPTIONS_CHANGE_INDEPENDANT:{

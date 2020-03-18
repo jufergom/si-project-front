@@ -30,7 +30,7 @@ const Variables= ({options,onChangeOption,onAccept})=>{
                 with={{onChangeOption: onChangeOption, options: renderOptions(options)}}
                 />
                 <br/>
-                <Button type="primary" onClick={()=> dispatch(onAccept())} style={{marginRight:'10px'}}> Aceptar </Button>
+                <Button type="primary" onClick={()=> dispatch(onAccept()) } style={{marginRight:'10px'}}> Aceptar </Button>
             </Card>
 
         </div>

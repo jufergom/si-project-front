@@ -47,7 +47,7 @@ const LoginPage = () => {
 					<Button
 						type="primary" 
 						className="login-button"
-						onClick={()=> {dispatch(loginCheck(username,password))}}
+						onClick={()=> {dispatch(loginCheck(username,password)); }}
 					>
 						Iniciar Sesión
 					</Button>

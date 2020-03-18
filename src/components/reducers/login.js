@@ -9,34 +9,31 @@ const intialLoginData ={
     isLogged: false
 }
 
-export const postLoginCheck =( username, password )=>{
+const postLoginCheck = state =>{
     const url = 'http://localhost:5000/api/login';
-    const user = { username: username, password: password };
-    axios.post(url,{ user })
+    const user = { username: state.username, password: state.password };
+    axios.post(url,user)
     .then(response =>{
-        if(response.status === 200){
-            message.success("Login Exitoso")
-            return true;
+        if(response.status===200){ 
+            handleLogin(state);
+            message.success("Login Exitoso"); 
         }
-        
-        message.success("Verifique su usuario o contraseña")
-        return false;
-
-    }).catch( error =>{
-        message.error("Error al iniciar sesion")
-        return false;
+    }).catch(error=>{
+        message.error("Ha ocurrido un error "+error);
     })
-
-    return false;
+    handleLogin(state);
 }
+
+const handleLogin = state =>{
+    state.isLogged = true;
+}
+
 
 const loginReducer = ( state = intialLoginData, actions )=>{
     switch(actions.type){
         case Types.LOGIN_CHECK:{
-            let isLogged = postLoginCheck( actions.payload.username, actions.payload.password )
-            const newState = _.cloneDeep(state);
-            newState.isLogged = isLogged;
-            return newState;
+            postLoginCheck(state);
+            return state;
         }
         case Types.LOGIN_HANDLE_CHANGE_USERNAME:{
             const newState = _.cloneDeep(state);
@@ -44,7 +41,7 @@ const loginReducer = ( state = intialLoginData, actions )=>{
             return newState;
         }
         case Types.LOGIN_HANDLE_CHANGE_PASSWORD:{
-            const newState = _.cloneDeep(state);
+            const newState = _.cloneDeep(state); 
             newState.password = actions.payload;
             return newState;
         }

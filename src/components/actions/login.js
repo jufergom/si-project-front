@@ -20,4 +20,3 @@ export const loginPasswordHandleChange = value =>{
         payload: value
     }
 }
-
