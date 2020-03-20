@@ -4,9 +4,11 @@ import './Styles/Home.css';
 import { Typography, Card, InputNumber } from 'antd';
 import Mayre from 'mayre';
 import Variables from "./Variables";
+import VariableType from "./VariablesType";
+import NeuralNetwork from "./NeuralNetwork";
 import PropTypes from 'prop-types';
 import {useSelector,useDispatch} from 'react-redux';
-import {sendData,optionsChange} from './actions/data';
+import {sendData,optionsChange,typeVarChange,onChangeOutputVariable, onChangeSize1, onChangeSize2, onChangeNumberOfIterations, onChangeActivationFunction, sendDataLogistic,sendDataNeuralNetwork} from './actions/data';
 
 const { Title } = Typography;
 const parseOptions = {header: true}
@@ -14,6 +16,8 @@ const parseOptions = {header: true}
 const MainPage = ({metadata,isCluster,onChangeCluster,onChangeData,onError})=>{
         const dispatch = useDispatch();
         let isVariableVisible = useSelector( state => state.data.isVariableVisible);
+		let isTypeVisible = useSelector( state => state.data.useType);
+		let isNeuralNetworkVisible = useSelector( state => state.data.useNeuralNetwork );
         let variableOptions = useSelector( state => state.data.variableOptions);
         return(
             <div>
@@ -51,6 +55,23 @@ const MainPage = ({metadata,isCluster,onChangeCluster,onChangeData,onError})=>{
                     when={isVariableVisible}
                     with={{ options: variableOptions,onChangeOption: optionsChange,onAccept: sendData}}
                 />
+				
+				
+				<br/>
+                <Mayre
+                of={VariableType}
+                when={isTypeVisible}
+                with={{ options: variableOptions, typeVarChange: typeVarChange,onAccept: sendDataLogistic}}
+                />
+				
+				<br/>
+                <Mayre
+                of={NeuralNetwork}
+                when={isNeuralNetworkVisible}
+                with={{ options: variableOptions, onChangeOutputVariable:onChangeOutputVariable, onChangeSize1:onChangeSize1, onChangeSize2:onChangeSize2, onChangeNumberOfIterations:onChangeNumberOfIterations, onChangeActivationFunction: onChangeActivationFunction, onAccept: sendDataNeuralNetwork}}
+                />
+				
+				
             </div>
         );
 }
