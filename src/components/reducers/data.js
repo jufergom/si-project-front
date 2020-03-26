@@ -18,7 +18,8 @@ const initialDataState ={
     isVariableVisible:false,
     useDependant: true,
 	useType: false,
-	useNeuralNetwork: false
+	useNeuralNetwork: false,
+	clusterType: false
 }
 
 const onChangeData = (state,data) =>{
@@ -27,7 +28,7 @@ const onChangeData = (state,data) =>{
     const variables = Object.getOwnPropertyNames(data[0])
     variables.splice(0,1);
     newState.variableOptions = variables;
-	if(state.useType || state.useNeuralNetwork) {
+	if(state.useType || state.useNeuralNetwork || !state.clusterType) {
 		newState.isVariableVisible = false;
 	} else {
 		newState.isVariableVisible = true;
@@ -70,7 +71,7 @@ const onAccept= state =>{
 }
 
 const onAcceptLogistic = state =>{
-	if(state.numberCluster == 0) {
+	if(state.numberCluster === 0) {
 		const url = 'http://localhost:5000/logistic';
 		const info = 
 		{ 
@@ -88,22 +89,43 @@ const onAcceptLogistic = state =>{
 			message.error("Hubo un error al enviar "+error)
 		})
 	} else {
-		const url = 'http://localhost:5000/clustering';
-		const info = 
-		{ 
-			selectedVariableType: state.selectedVariableType,
-			numberCluster: state.numberCluster,
-			parseData: state.parseData
-		};
-		axios.post(url, info)
-		.then(response =>{
-			if(response.status === 200){
-				message.success(response.data.responseText)
-			}
-			
-		}).catch( error =>{
-			message.error("Hubo un error al enviar "+error)
-		})
+		if(state.clusterType && state.useType ){
+
+
+			const url = 'http://localhost:5000/clustering';
+			const info = 
+			{ 
+				selectedVariableType: state.selectedVariableType,
+				numberCluster: state.numberCluster,
+				parseData: state.parseData
+			};
+			axios.post(url, info)
+			.then(response =>{
+				if(response.status === 200){
+					message.success(response.data.responseText)
+				}
+
+			}).catch( error =>{
+				message.error("Hubo un error al enviar "+error)
+			})
+
+		}else{
+			const url = 'http://localhost:5000/clustering-noprec';
+			const info = 
+			{ 
+				numberCluster: state.numberCluster,
+				parseData: state.parseData
+			};
+			axios.post(url, info)
+			.then(response =>{
+				if(response.status === 200){
+					message.success(response.data.responseText)
+				}
+
+			}).catch( error =>{
+				message.error("Hubo un error al enviar "+error)
+			})
+		}
 	}
 }
 
@@ -147,7 +169,7 @@ const updateData = (state,key) =>{
     switch(key){
         case '0':{ newState.useDependant = true ; newState.useType = false; newState.useNeuralNetwork = false; break;}
         case '1':{ newState.useDependant = false ; newState.useType = true; newState.useNeuralNetwork = false; break;}
-        case '2':{ newState.useDependant = false; newState.useType = true; newState.useNeuralNetwork = false; break;}
+        case '2':{ newState.useDependant = false; newState.useType = false; newState.useNeuralNetwork = false; break;}
         case '3':{ newState.useDependant = false; newState.useType = false; newState.useNeuralNetwork = true; break; }
         default:{ newState.useDependant = true; newState.useType = false; newState.useNeuralNetwork = false; break; } 
     }
@@ -251,6 +273,11 @@ const dataReducer = ( state = initialDataState ,action) =>{
 		}
 		case Types.OPTIONS_CHANGE_OUTPUT:{
 			return optionsChangeOutput(state,action.payload);
+		}
+		case Types.CHANGE_CLUSTER_TYPE:{
+			state.clusterType = action.payload;
+			state.useType = action.payload;
+			return state;
 		}
         default:
             return state;

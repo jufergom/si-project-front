@@ -1,14 +1,14 @@
 import React from "react";
 import CSVReader from 'react-csv-reader';
 import './Styles/Home.css';
-import { Typography, Card, InputNumber } from 'antd';
+import { Typography, Card, InputNumber, Checkbox, Button } from 'antd';
 import Mayre from 'mayre';
 import Variables from "./Variables";
 import VariableType from "./VariablesType";
 import NeuralNetwork from "./NeuralNetwork";
 import PropTypes from 'prop-types';
 import {useSelector,useDispatch} from 'react-redux';
-import {sendData,optionsChange,typeVarChange,onChangeOutputVariable, onChangeSize1, onChangeSize2, onChangeNumberOfIterations, onChangeActivationFunction, sendDataLogistic,sendDataNeuralNetwork} from './actions/data';
+import {sendData,optionsChange,typeVarChange,onChangeOutputVariable, onChangeSize1, onChangeSize2, onChangeNumberOfIterations, onChangeActivationFunction, sendDataLogistic,sendDataNeuralNetwork, onChangeClusterType} from './actions/data';
 
 const { Title } = Typography;
 const parseOptions = {header: true}
@@ -19,6 +19,7 @@ const MainPage = ({metadata,isCluster,onChangeCluster,onChangeData,onError})=>{
 		let isTypeVisible = useSelector( state => state.data.useType);
 		let isNeuralNetworkVisible = useSelector( state => state.data.useNeuralNetwork );
         let variableOptions = useSelector( state => state.data.variableOptions);
+        let isTaged = useSelector(state => state.data.clusterType);
         return(
             <div>
                 <header>
@@ -44,7 +45,18 @@ const MainPage = ({metadata,isCluster,onChangeCluster,onChangeData,onError})=>{
                 <Mayre
                     of={
                         <Card title="Numero de Clusters">
-                            <InputNumber onChange={(e) => dispatch(onChangeCluster(e))} /> 
+                            <InputNumber onChange={(e) => dispatch(onChangeCluster(e))} />
+                            <br/>
+                            <br/>
+                            <Checkbox onChange={(e)=> dispatch(onChangeClusterType(e.target.checked))}>¿Tiene etiqueta?</Checkbox>
+                            <br/>
+                            <br/>
+                            <Mayre
+                                of={
+                                    <Button onClick={ ()=> dispatch(sendDataLogistic())} >Aceptar</Button>
+                                }
+                                when={!isTaged}
+                            />
                         </Card> 
                         }
                     when={ isCluster }

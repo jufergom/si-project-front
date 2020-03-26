@@ -93,3 +93,10 @@ export const onChangeActivationFunction = value => {
         payload: value
     }
 }
+
+export const onChangeClusterType = value =>{
+    return{
+        type: Types.CHANGE_CLUSTER_TYPE,
+        payload: value
+    }
+}
